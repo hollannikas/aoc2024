@@ -4,7 +4,7 @@
 
 char *readLine(FILE *pFile);
 int compare (const void * a, const void * b);
-int findOccurrences(int value, const int array[1000]);
+int findOccurrences(int value, const int array[1000], int size);
 
 const int MAX_FILE_ROWS = 1000;
 
@@ -42,7 +42,8 @@ int main(void) {
     sum = 0;
     for (int n=0; n < MAX_FILE_ROWS; n++) {
         int first = firsts[n];
-        int occurrences = findOccurrences(first, seconds);
+        int size = (int) (sizeof(firsts) / sizeof(int));
+        int occurrences = findOccurrences(first, seconds, size);
         sum += first * occurrences;
     }
 
@@ -51,10 +52,17 @@ int main(void) {
     return 0;
 }
 
-int findOccurrences(int value, const int array[MAX_FILE_ROWS]) {
+/**
+ * Find the number of occurrences of a value in an array
+ * @param value to find
+ * @param array to search
+ * @param size of the array
+ * @return the number of occurrences
+ */
+int findOccurrences(int value, const int array[], int size) {
     int count = 0;
     if (array != NULL) {
-        for (int i = 0; i < MAX_FILE_ROWS; i++) {
+        for (int i = 0; i < size; i++) {
             if (array[i] == value) {
                 count++;
             }
@@ -63,6 +71,11 @@ int findOccurrences(int value, const int array[MAX_FILE_ROWS]) {
     return count;
 }
 
+/**
+ * Read a line from a file
+ * @param pFile file to read from
+ * @return the line read
+ */
 char *readLine(FILE *pFile) {
     char *line = NULL;
     size_t len = 0;
@@ -74,6 +87,12 @@ char *readLine(FILE *pFile) {
     return NULL;
 }
 
+/**
+ * Compare function for qsort
+ * @param a
+ * @param b
+ * @return comparison result
+ */
 int compare (const void * a, const void * b)
 {
     return ( *(int*)a - *(int*)b );
