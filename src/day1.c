@@ -6,13 +6,13 @@ char *readLine(FILE *pFile);
 int compare (const void * a, const void * b);
 int findOccurrences(int value, const int array[1000]);
 
-const int MAX_LINE_LENGTH = 1000;
+const int MAX_FILE_ROWS = 1000;
 
 int main(void) {
     FILE *file = fopen("data/day1.txt", "r");
 
-    int firsts[MAX_LINE_LENGTH];
-    int seconds[MAX_LINE_LENGTH];
+    int firsts[MAX_FILE_ROWS];
+    int seconds[MAX_FILE_ROWS];
 
     int ctr = 0;
     while (!feof(file)) {
@@ -27,19 +27,20 @@ int main(void) {
         seconds[ctr] = s;
 
         ctr++;
+        free(line);
     }
 
-    qsort (firsts, MAX_LINE_LENGTH, sizeof(int), compare);
-    qsort (seconds, MAX_LINE_LENGTH, sizeof(int), compare);
+    qsort (firsts, MAX_FILE_ROWS, sizeof(int), compare);
+    qsort (seconds, MAX_FILE_ROWS, sizeof(int), compare);
 
     int sum = 0;
-    for (int n=0; n<MAX_LINE_LENGTH; n++)
+    for (int n=0; n < MAX_FILE_ROWS; n++)
         sum += abs(firsts[n] - seconds[n]);
 
     printf("Total distance: %d\n", sum);
 
     sum = 0;
-    for (int n=0; n<MAX_LINE_LENGTH; n++) {
+    for (int n=0; n < MAX_FILE_ROWS; n++) {
         int first = firsts[n];
         int occurrences = findOccurrences(first, seconds);
         sum += first * occurrences;
@@ -50,10 +51,10 @@ int main(void) {
     return 0;
 }
 
-int findOccurrences(int value, const int array[1000]) {
+int findOccurrences(int value, const int array[MAX_FILE_ROWS]) {
     int count = 0;
     if (array != NULL) {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < MAX_FILE_ROWS; i++) {
             if (array[i] == value) {
                 count++;
             }
