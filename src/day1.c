@@ -4,7 +4,7 @@
 
 char *readLine(FILE *pFile);
 int compare (const void * a, const void * b);
-int findOccurrences(int value, int array[1000]);
+int findOccurrences(int value, const int array[1000]);
 
 const int MAX_LINE_LENGTH = 1000;
 
@@ -50,11 +50,13 @@ int main(void) {
     return 0;
 }
 
-int findOccurrences(int value, int array[1000]) {
+int findOccurrences(int value, const int array[1000]) {
     int count = 0;
-    for (int i = 0; i < 1000; i++) {
-        if (array[i] == value) {
-            count++;
+    if (array != NULL) {
+        for (int i = 0; i < 1000; i++) {
+            if (array[i] == value) {
+                count++;
+            }
         }
     }
     return count;
